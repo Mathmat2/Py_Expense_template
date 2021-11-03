@@ -31,22 +31,3 @@ def new_expense(*args):
 
     print("Expense Added !")
     return True
-
-user_questions = [
-    {
-        "type":"input",
-        "name":"name",
-        "message":"New User - Name: ",
-    },
-
-]
-
-def new_user(*args):
-    infos = prompt(user_questions)
-    
-    with open('users.csv', 'a', newline='') as users_file:
-        users_writer = csv.writer(users_file)
-        users_writer = users_writer.writerow([infos['name']])
-
-    print("User Added !")
-    return True
