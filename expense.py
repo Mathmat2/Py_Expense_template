@@ -13,9 +13,10 @@ expense_questions = [
         "message":"New Expense - Label: ",
     },
     {
-        "type":"input",
+        "type":"list",
         "name":"spender",
         "message":"New Expense - Spender: ",
+        "choices":[],
     },
 
 ]
@@ -23,6 +24,19 @@ expense_questions = [
 
 
 def new_expense(*args):
+    with open('users.csv', 'r', newline='') as users_file:
+        users_reader = csv.reader(users_file)
+        users = []
+
+        for row in users_reader:
+            users.append(row[0])
+
+    if len(users) == 0:
+        print('No Spender To Choose From ! Please Create A User First')
+        return True
+
+    expense_questions[2]['choices'] = users
+
     infos = prompt(expense_questions)
     
     with open('expense_report.csv', 'a', newline='') as expenses_file:
