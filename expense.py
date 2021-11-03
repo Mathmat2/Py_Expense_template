@@ -52,14 +52,20 @@ def new_expense(*args):
     involved_people = []
     for user in users:
         involved_people.append({'name': user})
-
-    print(involved_people)
     
     expense_questions[3]['choices'] = involved_people
 
     infos = prompt(expense_questions)
 
     infos['involved'].append(infos['spender'])
+
+    to_pay = int(infos['amount']) / len(infos['involved'])
+
+    for i in range(len(infos['involved'])):
+        if infos['involved'][i] != infos['spender']:
+            infos['involved'][i] = [infos['involved'][i], to_pay]
+        else:
+            infos['involved'][i] = [infos['involved'][i], 0]
     
     with open('expense_report.csv', 'a', newline='') as expenses_file:
         expenses_writer = csv.writer(expenses_file)
